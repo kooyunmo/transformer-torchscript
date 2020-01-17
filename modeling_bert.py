@@ -27,6 +27,7 @@ from torch import nn
 from torch.nn import CrossEntropyLoss, MSELoss
 
 from .modeling_utils import PreTrainedModel, prune_linear_layer
+from .configuration_utils import PretrainedConfig
 from .configuration_bert import BertConfig
 from .file_utils import add_start_docstrings
 
@@ -484,6 +485,7 @@ class BertPreTrainingHeads(nn.Module):
         return prediction_scores, seq_relationship_score
 
 
+
 class BertPreTrainedModel(PreTrainedModel):
     """ An abstract class to handle weights initialization and
         a simple interface for dowloading and loading pretrained models.
@@ -581,6 +583,8 @@ BERT_INPUTS_DOCSTRING = r"""
             ``1`` for tokens that are NOT MASKED, ``0`` for MASKED tokens.
 """
 
+
+# This should be changed to inherit nn.Module
 @add_start_docstrings("The bare Bert Model transformer outputting raw hidden-states without any specific head on top.",
                       BERT_START_DOCSTRING, BERT_INPUTS_DOCSTRING)
 class BertModel(BertPreTrainedModel):
@@ -653,6 +657,7 @@ class BertModel(BertPreTrainedModel):
             https://arxiv.org/abs/1706.03762
 
         """
+        
         if input_ids is not None and inputs_embeds is not None:
             raise ValueError("You cannot specify both input_ids and inputs_embeds at the same time")
         elif input_ids is not None:
@@ -1012,19 +1017,20 @@ class BertForSequenceClassification(BertPreTrainedModel):
 
     """
     def __init__(self, config):
+        print("TEST: __init__ called!!!!")
         super(BertForSequenceClassification, self).__init__(config)
         self.num_labels = config.num_labels
-
         self.bert = BertModel(config)
         self.dropout = nn.Dropout(config.hidden_dropout_prob)
         self.classifier = nn.Linear(config.hidden_size, self.config.num_labels)
 
         self.init_weights()
 
-    def forward(self, input_ids=None, attention_mask=None, token_type_ids=None,
-                position_ids=None, head_mask=None, inputs_embeds=None, labels=None):
-
-        outputs = self.bert(input_ids,
+    def forward(self, input_ids=None, attention_mask=None, labels=None, token_type_ids=None,
+                position_ids=None, head_mask=None, inputs_embeds=None):
+        
+        # print("TEST: forward called!!!!")
+        outputs = self.bert(input_ids=input_ids,
                             attention_mask=attention_mask,
                             token_type_ids=token_type_ids,
                             position_ids=position_ids,

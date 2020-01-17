@@ -1023,8 +1023,8 @@ class XLNetForSequenceClassification(XLNetPreTrainedModel):
 
         self.init_weights()
 
-    def forward(self, input_ids=None, attention_mask=None, mems=None, perm_mask=None, target_mapping=None,
-                token_type_ids=None, input_mask=None, head_mask=None, inputs_embeds=None, labels=None):
+    def forward(self, input_ids=None, attention_mask=None, labels=None, token_type_ids=None, mems=None,
+                perm_mask=None, target_mapping=None, input_mask=None, head_mask=None, inputs_embeds=None):
         transformer_outputs = self.transformer(input_ids,
                                                attention_mask=attention_mask,
                                                mems=mems,

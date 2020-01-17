@@ -475,6 +475,8 @@ class XLMModel(XLMPreTrainedModel):
 
         # langs
         if langs is not None:
+            print("langs: {}".format(langs))
+            print("(slen, bs): {}".format((slen, bs)))
             assert langs.size() == (bs, slen)  # (slen, bs)
             # langs = langs.transpose(0, 1)
 
@@ -711,8 +713,8 @@ class XLMForSequenceClassification(XLMPreTrainedModel):
 
         self.init_weights()
 
-    def forward(self, input_ids=None, attention_mask=None, langs=None, token_type_ids=None, position_ids=None,
-                lengths=None, cache=None, head_mask=None, inputs_embeds=None, labels=None):
+    def forward(self, input_ids=None, attention_mask=None, labels=None, token_type_ids=None, position_ids=None,
+                lengths=None, cache=None, head_mask=None, inputs_embeds=None, langs=None):
         transformer_outputs = self.transformer(input_ids,
                                                attention_mask=attention_mask,
                                                langs=langs,

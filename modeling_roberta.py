@@ -324,8 +324,8 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         self.roberta = RobertaModel(config)
         self.classifier = RobertaClassificationHead(config)
     
-    def forward(self, input_ids=None, attention_mask=None, token_type_ids=None, position_ids=None, head_mask=None, inputs_embeds=None,
-                labels=None):
+    def forward(self, input_ids=None, attention_mask=None, labels=None, token_type_ids=None,
+                position_ids=None, head_mask=None, inputs_embeds=None):
         outputs = self.roberta(input_ids,
                                attention_mask=attention_mask,
                                token_type_ids=token_type_ids,
